@@ -3,9 +3,9 @@
 #include<string.h>
 using namespace std;
 class Login {
-    char username[50];
-    char password[50];
-    unsigned int role;
+    string username;
+    string password;
+    public: unsigned int role;
         
     public:
     
@@ -22,14 +22,14 @@ class Login {
         return 1;
     }
 
-    int login(char un[],char pw[]) {
-        int valid = 0;
-        ifstream fs("logindata.txt",ios::in);
+    bool login(string input_username, string input_password) {
+        bool valid = false;
+        ifstream fs("logindata.txt", ios::in);
         while(!fs.eof()) {
             fs >> username >> password >> role;   
 
-            if(strcmp(un, username) == 0 && strcmp(pw, password) == 0) {
-                valid = 1;
+            if(username == input_username && password == input_password) {
+                valid = true;
                 if(role==1)
                 {
                     cout<<"Welcome to Customer : "<<username << endl;

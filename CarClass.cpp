@@ -13,6 +13,7 @@ class CarClass {
     };
     struct rental {
         car carSelected;
+        int carSelected_index;
         string dates;
         int driver;
         int days;
@@ -217,6 +218,7 @@ class CarClass {
             cout<<endl<<"You selected: ";
 
             r.carSelected=cars[op+4];
+            r.carSelected_index = op+4;
             printCar(r.carSelected);
 
 
@@ -448,6 +450,13 @@ class CarClass {
         }
 
         void endF() {
+
+            ofstream fs("order.txt", ios::app | ios::binary);   
+            fs << r.carSelected_index << " " << r.dates << " " << r.driver << " " << r.days << " " << calcCost(r.carSelected, r.driver, r.days) << endl;
+            // cust[0] because that's what is being set in the methods above
+            fs << cust[0].name << " " << cust[0].email << " " << cust[0].address<< " " << cust[0].cnic<< " " << cust[0].friend_email << endl;
+
+
             int endVal;
             cout<<endl<<"IF you want another booking then press 1 or press 0 for cancel your all booking."<<endl;
             cin>>endVal;
@@ -467,6 +476,23 @@ class CarClass {
                     menu1();
                 else
                 cout<<"Thank You";
+            }
+        }
+
+        void printOrders() {
+            ifstream fs("order.txt", ios::app | ios::binary);
+            int i = 1;
+            while (!fs.eof()) {
+                cout << "ORDER " <<  i << endl;
+                rental r;
+                customer cust;
+                fs >> r.carSelected_index >> r.dates >> r.driver >> r.days >> r.cost;
+                fs >> cust.name >> cust.email >> cust.address >> cust.cnic >> cust.friend_email;
+
+                // edit this how you want
+                cout << cars[r.carSelected_index].model << " " << r.dates << " " << r.driver << " " << r.days << " " << r.cost << endl;                
+                cout << cust.name << " " << cust.email << " " << cust.address<< " " << cust.cnic<< " " << cust.friend_email << endl;
+                i++;
             }
         }
 };
